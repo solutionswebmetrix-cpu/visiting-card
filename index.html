@@ -1104,6 +1104,186 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Product Filter & Search */
+        .product-filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .filter-input, .filter-select {
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .filter-input::placeholder {
+            color: #8fbc9f;
+        }
+
+        .filter-input:focus, .filter-select:focus {
+            outline: none;
+            border-color: #d4af37;
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .filter-select option {
+            background: #051a10;
+            color: #ffffff;
+        }
+
+        /* Modal Styles */
+        .product-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 26, 16, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .product-modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .product-modal {
+            background: linear-gradient(145deg, #0f2d1f 0%, #051a10 100%);
+            border-radius: 30px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.4s ease;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            background: rgba(212, 175, 55, 0.1);
+            color: #d4af37;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2001;
+        }
+
+        .modal-close-btn:hover {
+            background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+            color: #051a10;
+            transform: rotate(90deg);
+        }
+
+        .modal-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 50px;
+        }
+
+        .modal-image-wrapper {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(30, 74, 53, 0.2) 100%);
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-image-wrapper img {
+            max-width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+        }
+
+        .modal-details h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        .modal-details .modal-badge {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.15);
+            color: #d4af37;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .modal-description {
+            color: #c8e6d8;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .modal-benefits {
+            margin-bottom: 30px;
+        }
+
+        .modal-benefits h4 {
+            font-family: 'Playfair Display', serif;
+            color: #d4af37;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-benefit-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                grid-template-columns: 1fr;
+                padding: 30px;
+            }
+            .product-filters {
+                flex-direction: column;
+                align-items: center;
+            }
+            .filter-input, .filter-select {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1124,7 +1304,8 @@
             <div class="nav-links">
                 <a href="#hero" class="nav-link">Home</a>
                 <a href="#about" class="nav-link">About</a>
-                <a href="#products" class="nav-link">Products</a>
+                <a href="#our-products" class="nav-link">Our Products</a>
+                <a href="#products" class="nav-link">Featured</a>
                 <a href="#powders" class="nav-link">Powders</a>
                 <a href="#contact" class="nav-link">Contact</a>
             </div>
@@ -1244,6 +1425,132 @@
                 </div>
             </div>
         </section>
+
+        <!-- Our Products Section -->
+        <section id="our-products">
+            <h2 class="section-title">Our Products</h2>
+            <p class="section-subtitle">Premium Herbal & Fruit Powder Collection</p>
+            <div class="section-divider"></div>
+
+            <div class="product-filters">
+                <input type="text" id="product-search" class="filter-input" placeholder="🔍 Search products...">
+                <select id="product-filter" class="filter-select">
+                    <option value="all">All Categories</option>
+                    <option value="fruit">Fruit Powders</option>
+                    <option value="herbal">Herbal Powders</option>
+                </select>
+            </div>
+            
+            <div class="products-grid" id="our-products-grid">
+                <div class="product-card fade-in" data-category="fruit" data-name="Apple Powder">
+                    <div class="product-image-wrapper">
+                        <img src="applye-powder.png" alt="Apple Powder" loading="lazy">
+                    </div>
+                    <span class="product-badge">🍎 Fruit</span>
+                    <h3 class="product-name">Apple Powder</h3>
+                    <p class="product-description">Premium organic apple powder made from fresh, ripe apples. Rich in natural fiber and digestive enzymes.</p>
+                    <div class="product-benefits">
+                        <span class="benefit-tag">Natural Fiber</span>
+                        <span class="benefit-tag">Digestive Support</span>
+                    </div>
+                    <button class="product-btn" onclick="openModal('apple')">View Details →</button>
+                </div>
+
+                <div class="product-card fade-in" data-category="herbal" data-name="Amla Powder">
+                    <div class="product-image-wrapper">
+                        <img src="amla-powder.png" alt="Amla Powder" loading="lazy">
+                    </div>
+                    <span class="product-badge">🍃 Herbal</span>
+                    <h3 class="product-name">Amla Powder</h3>
+                    <p class="product-description">100% natural amla (Indian gooseberry) powder, a rich source of Vitamin C for immunity and wellness.</p>
+                    <div class="product-benefits">
+                        <span class="benefit-tag">Rich in Vitamin C</span>
+                        <span class="benefit-tag">Immunity Booster</span>
+                    </div>
+                    <button class="product-btn" onclick="openModal('amla')">View Details →</button>
+                </div>
+
+                <div class="product-card fade-in" data-category="fruit" data-name="Sea Buckthorn Powder">
+                    <div class="product-image-wrapper">
+                        <img src="sea buckthon-powder.png" alt="Sea Buckthorn Powder" loading="lazy">
+                    </div>
+                    <span class="product-badge">✨ Superfruit</span>
+                    <h3 class="product-name">Sea Buckthorn Powder</h3>
+                    <p class="product-description">Nutrient-dense sea buckthorn powder packed with antioxidants for skin health and overall wellness.</p>
+                    <div class="product-benefits">
+                        <span class="benefit-tag">Antioxidant Rich</span>
+                        <span class="benefit-tag">Skin & Wellness Support</span>
+                    </div>
+                    <button class="product-btn" onclick="openModal('sea-buckthorn')">View Details →</button>
+                </div>
+
+                <div class="product-card fade-in" data-category="herbal" data-name="Herbal Powder">
+                    <div class="product-image-wrapper">
+                        <img src="herberl-powder.png" alt="Herbal Powder" loading="lazy">
+                    </div>
+                    <span class="product-badge">🌿 Herbal Blend</span>
+                    <h3 class="product-name">Herbal Powder</h3>
+                    <p class="product-description">Special blend of organic herbal powders for natural wellness and organic health support.</p>
+                    <div class="product-benefits">
+                        <span class="benefit-tag">Natural Wellness Blend</span>
+                        <span class="benefit-tag">Organic Health Support</span>
+                    </div>
+                    <button class="product-btn" onclick="openModal('herbal')">View Details →</button>
+                </div>
+
+                <div class="product-card fade-in" data-category="herbal" data-name="Manjistha Powder">
+                    <div class="product-image-wrapper">
+                        <img src="majjistha-powder.png" alt="Manjistha Powder" loading="lazy">
+                    </div>
+                    <span class="product-badge">🔴 Ayurvedic</span>
+                    <h3 class="product-name">Manjistha Powder</h3>
+                    <p class="product-description">Pure manjistha (Indian madder) powder, known as a natural blood purifier and for skin health.</p>
+                    <div class="product-benefits">
+                        <span class="benefit-tag">Natural Blood Purifier</span>
+                        <span class="benefit-tag">Skin Health Support</span>
+                    </div>
+                    <button class="product-btn" onclick="openModal('manjistha')">View Details →</button>
+                </div>
+
+                <div class="product-card fade-in" data-category="herbal" data-name="Mulethi Powder">
+                    <div class="product-image-wrapper">
+                        <img src="herberl-powder.png" alt="Mulethi Powder" loading="lazy">
+                    </div>
+                    <span class="product-badge">🍬 Herbal</span>
+                    <h3 class="product-name">Mulethi Powder</h3>
+                    <p class="product-description">Organic mulethi (licorice) powder for respiratory support and digestive wellness.</p>
+                    <div class="product-benefits">
+                        <span class="benefit-tag">Respiratory Support</span>
+                        <span class="benefit-tag">Digestive Wellness</span>
+                    </div>
+                    <button class="product-btn" onclick="openModal('mulethi')">View Details →</button>
+                </div>
+
+                <div class="product-card fade-in" data-category="fruit" data-name="Banana Powder">
+                    <div class="product-image-wrapper">
+                        <img src="Banana powder with organic.png" alt="Banana Powder" loading="lazy">
+                    </div>
+                    <span class="product-badge">🍌 Fruit</span>
+                    <h3 class="product-name">Banana Powder</h3>
+                    <p class="product-description">Nutrient-rich banana powder made from ripe organic bananas, perfect for energy and nutrition.</p>
+                    <div class="product-benefits">
+                        <span class="benefit-tag">Energy Booster</span>
+                        <span class="benefit-tag">Nutrient Rich</span>
+                    </div>
+                    <button class="product-btn" onclick="openModal('banana')">View Details →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Modal -->
+        <div class="product-modal-overlay" id="product-modal">
+            <div class="product-modal">
+                <button class="modal-close-btn" onclick="closeModal()">×</button>
+                <div class="modal-content" id="modal-content">
+                    <!-- Content will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
 
         <!-- Products Section -->
         <section id="products">
@@ -1762,6 +2069,7 @@
             });
         }, observerOptions);
 
+        // Re-query all fade-in elements to include new ones
         document.querySelectorAll('.fade-in').forEach(el => {
             observer.observe(el);
         });
@@ -1788,6 +2096,135 @@
                 hero.style.transform = `translateY(${scrolled * 0.3}px)`;
             }
         });
+
+        // Product Data
+        const productsData = {
+            'apple': {
+                name: 'Apple Powder',
+                badge: '🍎 Fruit Powder',
+                image: 'applye-powder.png',
+                description: 'Our premium organic apple powder is made from fresh, ripe apples sourced from organic farms. It is rich in natural fiber, vitamins, and digestive enzymes that support healthy digestion and overall wellness. Perfect for adding to smoothies, yogurt, or baked goods.',
+                benefits: ['Natural Fiber', 'Digestive Support', 'Rich in Vitamins', 'Organic & Pure']
+            },
+            'amla': {
+                name: 'Amla Powder',
+                badge: '🍃 Herbal Powder',
+                image: 'amla-powder.png',
+                description: '100% natural amla (Indian gooseberry) powder is a powerhouse of Vitamin C and antioxidants. Known for its immunity-boosting properties, it also supports healthy skin, hair, and digestion. A staple in Ayurvedic wellness practices.',
+                benefits: ['Rich in Vitamin C', 'Immunity Booster', 'Skin & Hair Health', 'Antioxidant Rich']
+            },
+            'sea-buckthorn': {
+                name: 'Sea Buckthorn Powder',
+                badge: '✨ Superfruit Powder',
+                image: 'sea buckthon-powder.png',
+                description: 'Nutrient-dense sea buckthorn powder packed with omega fatty acids, vitamins, and antioxidants. This superfruit supports skin health, boosts immunity, and provides overall wellness support.',
+                benefits: ['Antioxidant Rich', 'Skin & Wellness Support', 'Omega Fatty Acids', 'Vitamin Rich']
+            },
+            'herbal': {
+                name: 'Herbal Powder',
+                badge: '🌿 Herbal Blend',
+                image: 'herberl-powder.png',
+                description: 'A special blend of organic herbal powders carefully formulated for natural wellness and organic health support. This synergistic blend combines the benefits of multiple herbs for holistic wellness.',
+                benefits: ['Natural Wellness Blend', 'Organic Health Support', 'Holistic Wellness', 'Pure & Natural']
+            },
+            'manjistha': {
+                name: 'Manjistha Powder',
+                badge: '🔴 Ayurvedic Powder',
+                image: 'majjistha-powder.png',
+                description: 'Pure manjistha (Indian madder) powder, a revered Ayurvedic herb known as a natural blood purifier. It supports healthy skin, helps maintain clear complexion, and promotes overall blood health.',
+                benefits: ['Natural Blood Purifier', 'Skin Health Support', 'Clear Complexion', 'Ayurvedic Wellness']
+            },
+            'mulethi': {
+                name: 'Mulethi Powder',
+                badge: '🍬 Herbal Powder',
+                image: 'herberl-powder.png',
+                description: 'Organic mulethi (licorice) powder is a soothing herb known for respiratory support and digestive wellness. It helps soothe throat irritation, supports healthy digestion, and has been used in Ayurveda for centuries.',
+                benefits: ['Respiratory Support', 'Digestive Wellness', 'Soothes Throat', 'Natural & Organic']
+            },
+            'banana': {
+                name: 'Banana Powder',
+                badge: '🍌 Fruit Powder',
+                image: 'Banana powder with organic.png',
+                description: 'Nutrient-rich banana powder made from ripe organic bananas. Packed with potassium, vitamins, and natural energy, it is perfect for smoothies, baking, and as a natural energy booster.',
+                benefits: ['Energy Booster', 'Nutrient Rich', 'Potassium Rich', 'Natural & Delicious']
+            }
+        };
+
+        // Open Product Modal
+        function openModal(productId) {
+            const product = productsData[productId];
+            const modalContent = document.getElementById('modal-content');
+            const modalOverlay = document.getElementById('product-modal');
+
+            modalContent.innerHTML = `
+                <div class="modal-image-wrapper">
+                    <img src="${product.image}" alt="${product.name}">
+                </div>
+                <div class="modal-details">
+                    <span class="modal-badge">${product.badge}</span>
+                    <h2>${product.name}</h2>
+                    <p class="modal-description">${product.description}</p>
+                    <div class="modal-benefits">
+                        <h4>Key Benefits</h4>
+                        <div class="modal-benefit-list">
+                            ${product.benefits.map(benefit => `<span class="benefit-tag">${benefit}</span>`).join('')}
+                        </div>
+                    </div>
+                    <a href="https://wa.me/919828010456?text=Hi! I'm interested in ${encodeURIComponent(product.name)}" target="_blank" class="btn btn-primary" style="width: 100%; justify-content: center;">💬 WhatsApp Inquiry</a>
+                </div>
+            `;
+
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close Product Modal
+        function closeModal() {
+            const modalOverlay = document.getElementById('product-modal');
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal when clicking overlay
+        document.getElementById('product-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Product Search & Filter
+        const searchInput = document.getElementById('product-search');
+        const filterSelect = document.getElementById('product-filter');
+        const productCards = document.querySelectorAll('#our-products-grid .product-card');
+
+        function filterProducts() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedCategory = filterSelect.value;
+
+            productCards.forEach(card => {
+                const productName = card.getAttribute('data-name').toLowerCase();
+                const productCategory = card.getAttribute('data-category');
+
+                const matchesSearch = productName.includes(searchTerm);
+                const matchesCategory = selectedCategory === 'all' || productCategory === selectedCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        searchInput.addEventListener('input', filterProducts);
+        filterSelect.addEventListener('change', filterProducts);
     </script>
 </body>
 </html>
